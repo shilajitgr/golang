@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package primeDecompose;
+
+option go_package="primeDecomposepb";
+
+message Number{
+    int32 val = 1;
+}
+
+message primeRequest{
+    Number input = 1;
+}
+
+message primeResponse {
+    int32 primeFactor = 1;
+}
+
+message avgRequest{
+    Number input = 1;
+}
+
+message avgResponse {
+    float avg = 1;
+}
+
+message findMaxRequest{
+    int32 val = 1;
+}
+
+message findMaxResponse{
+    int32 max = 1;
+}
+
+message sqrtRequest{
+    int32 val = 1;
+}
+
+message sqrtResponse{
+    float sqrt = 1;
+}
+
+service primeService {
+    //server stream
+    rpc Number(primeRequest) returns (stream primeResponse) {};
+
+    // client Stream
+    rpc ComputeAvg(stream avgRequest) returns (avgResponse) {};
+
+    //bi-directional stream
+    rpc FindMax(stream findMaxRequest) returns (stream findMaxResponse) {};
+
+    //unary : find sqaure root
+    rpc SquareRoot(sqrtRequest) returns (sqrtResponse) {};
+    // this rpc will throw error
+    // if no. being sent in request is negative
+    // the error being sent is of type INVALID_ARGUMENT
+}

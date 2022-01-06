@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package greetMany;
+option go_package="greetManypb";
+
+message Greeting{
+    string first_name = 1;
+    string last_name = 2;
+}
+
+message GreetManyTimesRequest{
+    Greeting greeting = 1;
+}
+
+message GreetManyTimesResponse{
+    string result = 1;
+}
+
+message LongGreetRequest{
+    Greeting longGreet = 1;
+}
+
+message LongGreetResponse{
+    string result = 1;
+}
+
+message GreetEveryoneRequest{
+    Greeting greetEveryone = 1;
+}
+
+message GreetEveryoneResponse{
+    string result = 1;
+}
+
+service GreetService{
+    // server streaming
+    rpc GreetManyTimes(GreetManyTimesRequest) returns (stream GreetManyTimesResponse) {};
+
+    // client streaming
+    rpc LongGreet(stream LongGreetRequest) returns (LongGreetResponse) {};
+
+    //Bi-directional
+    rpc GreetEveryone(stream GreetEveryoneRequest) returns (stream GreetEveryoneResponse) {};
+}
